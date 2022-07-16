@@ -1,0 +1,80 @@
+From ad74e1c628b4fa2f67d8f7e342138e6e103832ea Mon Sep 17 00:00:00 2001
+From: "Sergey G. Brester" <serg.brester@sebres.de>
+Date: Mon, 8 Feb 2021 17:19:24 +0100
+Subject: [PATCH 2/4] follow bpo-37324:
+ :ref:`collections-abstract-base-classes` moved to the :mod:`collections.abc`
+ module
+
+(since 3.10-alpha.5 `MutableMapping` is missing in collections module)
+---
+ fail2ban/server/action.py | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/fail2ban/server/action.py b/fail2ban/server/action.py
+index 4615401ed..16ff66212 100644
+--- a/fail2ban/server/action.py
++++ b/fail2ban/server/action.py
+@@ -30,7 +30,10 @@
+ import threading
+ import time
+ from abc import ABCMeta
+-from collections import MutableMapping
++try:
++	from collections.abc import MutableMapping
++except ImportError:
++	from collections import MutableMapping
+ 
+ from .failregex import mapTag2Opt
+ from .ipdns import DNSUtils
+
+From a785aab392d8de2ecb685d8bdd9266a0c7f8edf8 Mon Sep 17 00:00:00 2001
+From: "Sergey G. Brester" <serg.brester@sebres.de>
+Date: Mon, 8 Feb 2021 17:25:45 +0100
+Subject: [PATCH 3/4] amend for `Mapping`
+
+---
+ fail2ban/server/actions.py | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/fail2ban/server/actions.py b/fail2ban/server/actions.py
+index 967908af6..91e1ebaf3 100644
+--- a/fail2ban/server/actions.py
++++ b/fail2ban/server/actions.py
+@@ -28,7 +28,10 @@
+ import os
+ import sys
+ import time
+-from collections import Mapping
++try:
++	from collections.abc import Mapping
++except ImportError:
++	from collections import Mapping
+ try:
+ 	from collections import OrderedDict
+ except ImportError:
+
+From 0e2e2bf37da59649a1c3392b04b9480f84dac446 Mon Sep 17 00:00:00 2001
+From: "Sergey G. Brester" <serg.brester@sebres.de>
+Date: Mon, 8 Feb 2021 17:35:59 +0100
+Subject: [PATCH 4/4] amend for `Mapping` (jails)
+
+---
+ fail2ban/server/jails.py | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/fail2ban/server/jails.py b/fail2ban/server/jails.py
+index 972a8c4bd..27e12ddf6 100644
+--- a/fail2ban/server/jails.py
++++ b/fail2ban/server/jails.py
+@@ -22,7 +22,10 @@
+ __license__ = "GPL"
+ 
+ from threading import Lock
+-from collections import Mapping
++try:
++	from collections.abc import Mapping
++except ImportError:
++	from collections import Mapping
+ 
+ from ..exceptions import DuplicateJailException, UnknownJailException
+ from .jail import Jail

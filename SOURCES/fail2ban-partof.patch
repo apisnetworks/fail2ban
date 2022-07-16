@@ -1,0 +1,12 @@
+diff -up fail2ban-0.10.5/files/fail2ban.service.in.partof fail2ban-0.10.5/files/fail2ban.service.in
+--- fail2ban-0.10.5/files/fail2ban.service.in.partof	2020-01-10 05:34:46.000000000 -0700
++++ fail2ban-0.10.5/files/fail2ban.service.in	2020-01-11 16:13:53.372316861 -0700
+@@ -2,7 +2,7 @@
+ Description=Fail2Ban Service
+ Documentation=man:fail2ban(1)
+ After=network.target iptables.service firewalld.service ip6tables.service ipset.service nftables.service
+-PartOf=iptables.service firewalld.service ip6tables.service ipset.service nftables.service
++PartOf=firewalld.service
+ 
+ [Service]
+ Type=simple
