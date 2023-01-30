@@ -1,12 +1,11 @@
-%define commitish c6cfd76
 Name: fail2ban
-Version: 0.11.2
-Release: 12.git%{commitish}%{?dist}
+Version: 1.0.2
+Release: 1%{?dist}
 Summary: Daemon to ban hosts that cause multiple authentication errors
 
 License: GPLv2+
 URL: http://fail2ban.sourceforge.net/
-Source0: https://github.com/%{name}/%{name}/archive/%{version}.tar.gz#/%{name}-%{version}-%{commitish}.tar.gz
+Source0: https://github.com/%{name}/%{name}/archive/fail2ban-%{version}.tar.gz
 # SELinux policy
 Source1: fail2ban.fc
 Source2: fail2ban.if
@@ -212,12 +211,12 @@ by default.
 
 
 %prep
-%autosetup -p1 -n fail2ban-0.11
+%autosetup -p1
 
 # Use Fedora paths
 sed -i -e 's/^before = paths-.*/before = paths-fedora.conf/' config/jail.conf
 %if 0%{?fedora} || 0%{?rhel} >= 8
-2to3 --write --nobackups .
+./fail2ban-2to3
 find -type f -exec sed -i -e '1s,^#!/usr/bin/python *,#!/usr/bin/python%{python3_version},' {} +
 %endif
 
